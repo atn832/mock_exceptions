@@ -9,7 +9,7 @@ Provides a mechanism to throw exceptions on certain calls. This is useful when w
 final f = MyFake();
 whenCalling(Invocation.method(#doSomething, null))
     .on(f)
-    .thenThrowException(Exception());
+    .thenThrow(Exception());
 expect(() => f.doSomething(), throwsException);
 ```
 
@@ -69,13 +69,13 @@ You can now forcefully throw exceptions and test for them.
 final fake = MyFake();
 whenCalling(Invocation.method(#doSomething, ['fun']))
     .on(fake)
-    .thenThrowException(Exception());
+    .thenThrow(Exception());
 expect(() => fake.doSomething('fun'), throwsException);
 ```
 
 ## Design considerations
 
-- `whenCalling(Invocation.method(#doSomething, [equals('fun')])).on(fake).thenThrowException(Exception());` is too verbose. Why not reimplement Mockito's API so that I can write `when(fake.doSomething('fun')).thenThrow(Exception())`?
+- `whenCalling(Invocation.method(#doSomething, [equals('fun')])).on(fake).thenThrow(Exception());` is too verbose. Why not reimplement Mockito's API so that I can write `when(fake.doSomething('fun')).thenThrow(Exception())`?
   - Implementing Mockito's API requires relying on the `noSuchMethod` trick to detect the Invocation. As of writing, Mockito's [mock.dart](https://github.com/dart-lang/mockito/blob/master/lib/src/mock.dart) takes 1200 lines of code while our [mock_exceptions.dart](https://github.com/atn832/mock_exceptions/blob/main/lib/src/mock_exceptions.dart) takes around 80. Even if we pare Mockito's down to the minimum (excluding verifications, captures), it'd still take around 500 lines of code.
   - It also forces the Fakes to extend a pre-defined class, `Mock` in Mockito's case. In some projects such as Fake Cloud Firestore ([example](https://github.com/atn832/fake_cloud_firestore/blob/ac1d536f43048a152f78e643315f3f9326722d3e/lib/src/mock_collection_reference.dart#L16)), we actually need to extend another class.
 - The Mockito API has its own downsides and gotchas. See how one should use named arguments [here](https://pub.dev/packages/mockito#named-arguments). Also you need to use its wrappers around the regular Matchers, such as `any` instead of `anything`, and `argThat(matcher)`.

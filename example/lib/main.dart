@@ -6,7 +6,7 @@ void main() {
     final f = MyFake();
     whenCalling(Invocation.method(#doSomething, null))
         .on(f)
-        .thenThrowException(Exception());
+        .thenThrow(Exception());
     expect(() => f.doSomething(), throwsException);
   });
 }

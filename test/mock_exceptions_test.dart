@@ -8,29 +8,23 @@ void main() {
     setUp(() => f = MyFake());
 
     test('name', () {
-      whenCalling(Invocation.getter(#name))
-          .on(f)
-          .thenThrowException(Exception());
+      whenCalling(Invocation.getter(#name)).on(f).thenThrow(Exception());
       expect(() => f.name, throwsException);
       expect(() => f.description, returnsNormally);
     });
 
     test('type', () {
-      whenCalling(Invocation.setter(#name, null))
-          .on(f)
-          .thenThrowException(Exception());
+      whenCalling(Invocation.setter(#name, null)).on(f).thenThrow(Exception());
       expect(() => f.name, returnsNormally);
 
-      whenCalling(Invocation.getter(#name))
-          .on(f)
-          .thenThrowException(Exception());
+      whenCalling(Invocation.getter(#name)).on(f).thenThrow(Exception());
       expect(() => f.name, throwsException);
     });
 
     test('loose matching when omitting positional argument matcher', () {
       whenCalling(Invocation.method(#doSomething, null))
           .on(f)
-          .thenThrowException(Exception());
+          .thenThrow(Exception());
       expect(() => f.doSomething('fun'), throwsException);
     });
 
@@ -39,14 +33,14 @@ void main() {
 
       whenCalling(Invocation.method(#doSomething, [equals('fun')]))
           .on(f)
-          .thenThrowException(Exception());
+          .thenThrow(Exception());
       expect(() => f.doSomething('fun'), throwsException);
       expect(() => f.doSomething('no fun'), returnsNormally);
 
       // Omitting equals when expecting equality.
       whenCalling(Invocation.method(#doSomething, ['no fun']))
           .on(f)
-          .thenThrowException(Exception());
+          .thenThrow(Exception());
       expect(() => f.doSomething('no fun'), throwsException);
     });
 
@@ -56,16 +50,14 @@ void main() {
       whenCalling(Invocation.method(
               #add, null, {#i1: greaterThan(0), #i2: anything}))
           .on(f)
-          .thenThrowException(Exception());
+          .thenThrow(Exception());
 
       expect(() => f.add(i1: 1, i2: 2), throwsException);
       expect(() => f.add(i1: -1, i2: 2), returnsNormally);
     });
 
     test('loose matching when omitting named argument matcher', () {
-      whenCalling(Invocation.method(#add, null))
-          .on(f)
-          .thenThrowException(Exception());
+      whenCalling(Invocation.method(#add, null)).on(f).thenThrow(Exception());
 
       expect(() => f.add(i1: 1, i2: 2), throwsException);
     });
@@ -75,7 +67,7 @@ void main() {
 
       whenCalling(Invocation.genericMethod(#makeList, [int], null))
           .on(f)
-          .thenThrowException(Exception());
+          .thenThrow(Exception());
 
       expect(() => f.makeList<int>(), throwsException);
     });
@@ -83,7 +75,7 @@ void main() {
     test('loose matching when omitting type argument matcher', () {
       whenCalling(Invocation.genericMethod(#makeList, null, null))
           .on(f)
-          .thenThrowException(Exception());
+          .thenThrow(Exception());
 
       expect(() => f.makeList<int>(), throwsException);
     });

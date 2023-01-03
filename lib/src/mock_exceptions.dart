@@ -82,7 +82,7 @@ class PostOn<T> {
   final Object o;
   final Invocation i;
 
-  thenThrowException(Exception e) {
+  thenThrow(Exception e) {
     // o i e, literally Oh yeah.
     _register(o, i, e);
   }
