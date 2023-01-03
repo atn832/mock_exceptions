@@ -1,12 +1,19 @@
 import 'package:mock_exceptions/mock_exceptions.dart';
 
 class MyFake {
-  get name {
+  String _name = 'name';
+
+  String get name {
     maybeThrowException(this, Invocation.getter(#name));
-    return 'name';
+    return _name;
   }
 
-  get description {
+  set name(String value) {
+    maybeThrowException(this, Invocation.setter(#name, value));
+    _name = value;
+  }
+
+  String get description {
     maybeThrowException(this, Invocation.getter(#description));
     return 'description';
   }

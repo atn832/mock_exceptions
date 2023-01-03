@@ -16,7 +16,10 @@ void main() {
     });
 
     test('type', () {
-      whenCalling(Invocation.setter(#name, null)).on(f).thenThrow(Exception());
+      whenCalling(Invocation.setter(#name, anything))
+          .on(f)
+          .thenThrow(Exception());
+      expect(() => f.name = 'new name', throwsException);
       expect(() => f.name, returnsNormally);
 
       whenCalling(Invocation.getter(#name)).on(f).thenThrow(Exception());
