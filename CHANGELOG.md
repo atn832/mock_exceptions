@@ -1,6 +1,6 @@
 ## 0.8.1
 
-- Support matching with `anything` when omitting positional matchers.
+Support matching with `anything` when omitting matchers.
 
 ## 0.8.0+1
 

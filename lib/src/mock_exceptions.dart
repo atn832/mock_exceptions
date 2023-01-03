@@ -22,30 +22,33 @@ void maybeThrowException(Object o, Invocation i) {
   }
 }
 
+/// Similar to String.padRight, but with lists.
+List<T> _padRight<T>(List<T> l1, int width, T value) {
+  if (width <= l1.length) {
+    return l1;
+  }
+  return [...l1, ...List.filled(width - l1.length, value)];
+}
+
 bool _matches(
     Invocation invocationWithMatchers, Invocation concreteInvocation) {
   // Fill missing positional arguments with `anything` matchers.
-  final loosePositionalArgumentMatchers = [
-    ...invocationWithMatchers.positionalArguments,
-    // It is possible for a list of expected matchers to be larger than in
-    // actual calls. In that case, do not add any `anything` matcher. For
-    // example setting an expectation with one matcher on a getter, when it is
-    // actually a setter that takes no positional parameter.
-    if (concreteInvocation.positionalArguments.length >
-        invocationWithMatchers.positionalArguments.length)
-      ...List.filled(
-          concreteInvocation.positionalArguments.length -
-              invocationWithMatchers.positionalArguments.length,
-          anything)
-  ];
+  final loosePositionalArgumentMatchers = _padRight(
+      invocationWithMatchers.positionalArguments,
+      concreteInvocation.positionalArguments.length,
+      anything);
   // Fill missing named arguments with `anything` matchers.
   final looseNamedArgumentMatchers = {
     // Start with a full map of `anything` matchers.
     ...Map.fromIterable(concreteInvocation.namedArguments.keys,
         value: (element) => anything),
-    // Override with specific matchers
+    // Override with specific matchers.
     ...invocationWithMatchers.namedArguments,
   };
+  final looseTypeArgumentMatchers = _padRight(
+      invocationWithMatchers.typeArguments,
+      concreteInvocation.typeArguments.length,
+      anything);
   return invocationWithMatchers.isMethod == concreteInvocation.isMethod &&
       invocationWithMatchers.isGetter == concreteInvocation.isGetter &&
       invocationWithMatchers.isSetter == concreteInvocation.isSetter &&
@@ -54,7 +57,7 @@ bool _matches(
           .matches(concreteInvocation.positionalArguments, {}) &&
       equals(looseNamedArgumentMatchers)
           .matches(concreteInvocation.namedArguments, {}) &&
-      equals(invocationWithMatchers.typeArguments)
+      equals(looseTypeArgumentMatchers)
           .matches(concreteInvocation.typeArguments, {});
 }
 

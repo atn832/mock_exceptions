@@ -67,7 +67,15 @@ void main() {
     test('type arguments', () {
       expect(f.makeList<int>(), []);
 
-      whenCalling(Invocation.genericMethod(#makeList, null, null, {#T: int}))
+      whenCalling(Invocation.genericMethod(#makeList, [int], null))
+          .on(f)
+          .thenThrowException(Exception());
+
+      expect(() => f.makeList<int>(), throwsException);
+    });
+
+    test('loose matching when omitting type argument matcher', () {
+      whenCalling(Invocation.genericMethod(#makeList, null, null))
           .on(f)
           .thenThrowException(Exception());
 
@@ -99,8 +107,7 @@ class MyFake {
   }
 
   List<T> makeList<T>() {
-    maybeThrowException(
-        this, Invocation.genericMethod(#makeList, null, null, {#T: T}));
+    maybeThrowException(this, Invocation.genericMethod(#makeList, [T], null));
     return List<T>.empty();
   }
 }
