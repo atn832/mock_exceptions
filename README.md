@@ -1,6 +1,7 @@
 # mock_exceptions
 
 [![pub package](https://img.shields.io/pub/v/mock_exceptions.svg)](https://pub.dartlang.org/packages/mock_exceptions)
+[![CI](https://github.com/atn832/mock_exceptions/actions/workflows/dart.yml/badge.svg)](https://github.com/atn832/mock_exceptions/actions/workflows/dart.yml)
 
 Provides a mechanism to throw exceptions on certain calls. This is useful when working with a Fake and we still want to occasionally make it throw exceptions.
 
