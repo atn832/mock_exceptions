@@ -40,12 +40,11 @@ bool _matches(
   ];
   // Fill missing named arguments with `anything` matchers.
   final looseNamedArgumentMatchers = {
+    // Start with a full map of `anything` matchers.
+    ...Map.fromIterable(concreteInvocation.namedArguments.keys,
+        value: (element) => anything),
+    // Override with specific matchers
     ...invocationWithMatchers.namedArguments,
-    // Add `anything` matchers on missing named arguments
-    ...Map.fromIterable(
-        concreteInvocation.namedArguments.keys.where(
-            (k) => !invocationWithMatchers.namedArguments.containsKey(k)),
-        value: (element) => anything)
   };
   return invocationWithMatchers.isMethod == concreteInvocation.isMethod &&
       invocationWithMatchers.isGetter == concreteInvocation.isGetter &&
