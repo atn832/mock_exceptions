@@ -24,20 +24,36 @@ void maybeThrowException(Object o, Invocation i) {
 
 bool _matches(
     Invocation invocationWithMatchers, Invocation concreteInvocation) {
-  final expectedPositionalMatchers = invocationWithMatchers.positionalArguments;
+  // Fill missing positional arguments with `anything` matchers.
+  final loosePositionalArgumentMatchers = [
+    ...invocationWithMatchers.positionalArguments,
+    // It is possible for a list of expected matchers to be larger than in
+    // actual calls. In that case, do not add any `anything` matcher. For
+    // example setting an expectation with one matcher on a getter, when it is
+    // actually a setter that takes no positional parameter.
+    if (concreteInvocation.positionalArguments.length >
+        invocationWithMatchers.positionalArguments.length)
+      ...List.filled(
+          concreteInvocation.positionalArguments.length -
+              invocationWithMatchers.positionalArguments.length,
+          anything)
+  ];
+  // Fill missing named arguments with `anything` matchers.
+  final looseNamedArgumentMatchers = {
+    ...invocationWithMatchers.namedArguments,
+    // Add `anything` matchers on missing named arguments
+    ...Map.fromIterable(
+        concreteInvocation.namedArguments.keys.where(
+            (k) => !invocationWithMatchers.namedArguments.containsKey(k)),
+        value: (element) => anything)
+  };
   return invocationWithMatchers.isMethod == concreteInvocation.isMethod &&
       invocationWithMatchers.isGetter == concreteInvocation.isGetter &&
       invocationWithMatchers.isSetter == concreteInvocation.isSetter &&
       invocationWithMatchers.memberName == concreteInvocation.memberName &&
-      // Fill missing positional arguments with `anything` matchers.
-      equals([
-        ...expectedPositionalMatchers,
-        ...List.filled(
-            concreteInvocation.positionalArguments.length -
-                expectedPositionalMatchers.length,
-            anything)
-      ]).matches(concreteInvocation.positionalArguments, {}) &&
-      equals(invocationWithMatchers.namedArguments)
+      equals(loosePositionalArgumentMatchers)
+          .matches(concreteInvocation.positionalArguments, {}) &&
+      equals(looseNamedArgumentMatchers)
           .matches(concreteInvocation.namedArguments, {}) &&
       equals(invocationWithMatchers.typeArguments)
           .matches(concreteInvocation.typeArguments, {});

@@ -27,7 +27,7 @@ void main() {
       expect(() => f.name, throwsException);
     });
 
-    test('loose matching with no positional argument matcher', () {
+    test('loose matching when omitting positional argument matcher', () {
       whenCalling(Invocation.method(#doSomething, null))
           .on(f)
           .thenThrowException(Exception());
@@ -47,7 +47,17 @@ void main() {
     test('named arguments', () {
       expect(f.add(i1: 2, i2: 3), 5);
 
-      whenCalling(Invocation.method(#add, null, {#i1: anything, #i2: anything}))
+      whenCalling(Invocation.method(
+              #add, null, {#i1: greaterThan(0), #i2: anything}))
+          .on(f)
+          .thenThrowException(Exception());
+
+      expect(() => f.add(i1: 1, i2: 2), throwsException);
+      expect(() => f.add(i1: -1, i2: 2), returnsNormally);
+    });
+
+    test('loose matching when omitting named argument matcher', () {
+      whenCalling(Invocation.method(#add, null))
           .on(f)
           .thenThrowException(Exception());
 
