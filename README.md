@@ -4,12 +4,14 @@ Provides a mechanism to throw exceptions on certain calls. This is useful when w
 
 ## Features
 
-- supports regular matchers.
+- supports regular [matchers](https://pub.dev/documentation/matcher/latest/matcher/matcher-library.html).
 
 ## Usage
 
-1. In your Fake method implementation, add `maybeThrowException` at the beginning.
+1. In your Fake method/getter/setter implementation, add `maybeThrowException` at the beginning.
 1. In your unit test, set up an expectation, then verify your expectations as usual.
+
+For exhaustive usage, see our [unit tests](https://github.com/atn832/mock_exceptions/blob/main/test/mock_exceptions_test.dart).
 
 ### Before
 

@@ -2,7 +2,7 @@ import 'package:matcher/matcher.dart';
 
 Map<Object, Map<Invocation, Exception>> expectations = {};
 
-void register(Object o, Invocation i, Exception e) {
+void _register(Object o, Invocation i, Exception e) {
   expectations.putIfAbsent(o, () => {});
   expectations[o]![i] = e;
 }
@@ -59,6 +59,6 @@ class PostOn<T> {
 
   thenThrowException(Exception e) {
     // o i e, literally Oh yeah.
-    register(o, i, e);
+    _register(o, i, e);
   }
 }
