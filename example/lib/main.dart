@@ -2,7 +2,7 @@ import 'package:mock_exceptions/mock_exceptions.dart';
 import 'package:test/test.dart';
 
 void main() {
-  test('mockable exception', () {
+  test('minimal example', () {
     final f = MyFake();
     whenCalling(Invocation.method(#doSomething, null))
         .on(f)

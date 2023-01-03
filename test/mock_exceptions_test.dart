@@ -42,6 +42,12 @@ void main() {
           .thenThrowException(Exception());
       expect(() => f.doSomething('fun'), throwsException);
       expect(() => f.doSomething('no fun'), returnsNormally);
+
+      // Omitting equals when expecting equality.
+      whenCalling(Invocation.method(#doSomething, ['no fun']))
+          .on(f)
+          .thenThrowException(Exception());
+      expect(() => f.doSomething('no fun'), throwsException);
     });
 
     test('named arguments', () {

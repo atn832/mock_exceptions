@@ -67,7 +67,7 @@ You can now forcefully throw exceptions and test for them.
 
 ```dart
 final fake = MyFake();
-whenCalling(Invocation.method(#doSomething, [equals('fun')]))
+whenCalling(Invocation.method(#doSomething, ['fun']))
     .on(fake)
     .thenThrowException(Exception());
 expect(() => fake.doSomething('fun'), throwsException);
