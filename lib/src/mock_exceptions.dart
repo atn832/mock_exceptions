@@ -24,9 +24,14 @@ void maybeThrowException(Object o, Invocation i) {
 
 bool _matches(
     Invocation invocationWithMatchers, Invocation concreteInvocation) {
-  final e = equals(invocationWithMatchers.positionalArguments)
-      .matches(concreteInvocation.positionalArguments, {});
-  return e;
+  return invocationWithMatchers.isMethod == concreteInvocation.isMethod &&
+      invocationWithMatchers.isGetter == concreteInvocation.isGetter &&
+      invocationWithMatchers.isSetter == concreteInvocation.isSetter &&
+      invocationWithMatchers.memberName == concreteInvocation.memberName &&
+      equals(invocationWithMatchers.positionalArguments)
+          .matches(concreteInvocation.positionalArguments, {}) &&
+      equals(invocationWithMatchers.namedArguments)
+          .matches(concreteInvocation.namedArguments, {});
 }
 
 /// Named differently from Mockito's `when` to prevent conflicts.

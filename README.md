@@ -8,7 +8,7 @@ Provides a mechanism to throw exceptions on certain calls. This is useful when w
 
 ## Usage
 
-1. In your Fake method implementation, add `maybeThrowException` at the beginning:
+1. In your Fake method implementation, add `maybeThrowException` at the beginning.
 1. In your unit test, set up an expectation, then verify your expectations as usual.
 
 ### Before

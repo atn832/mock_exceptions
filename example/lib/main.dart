@@ -1,4 +1,4 @@
-import 'package:mockable_exception/mock_exceptions.dart';
+import 'package:mock_exceptions/mock_exceptions.dart';
 import 'package:test/test.dart';
 
 void main() {
