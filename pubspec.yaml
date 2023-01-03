@@ -1,6 +1,6 @@
 name: mock_exceptions
 description: Provides a mechanism to throw exceptions on certain calls. This is useful when working with a Fake and we still want to occasionally make it throw exceptions.
-version: 0.8.0+1
+version: 0.8.1
 repository: https://github.com/atn832/mock_exceptions
 homepage: https://www.wafrat.com
 

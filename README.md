@@ -18,6 +18,7 @@ expect(() => f.doSomething(), throwsException);
 - supports mocking exceptions for methods, getters, setters.
 - supports matching on positional parameters, named parameters and type parameters (generics).
 - supports regular [matchers](https://pub.dev/documentation/matcher/latest/matcher/matcher-library.html).
+- supports omitting parameters when matching with `anything`.
 
 For exhaustive usage, see our [unit tests](https://github.com/atn832/mock_exceptions/blob/main/test/mock_exceptions_test.dart).
 

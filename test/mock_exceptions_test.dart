@@ -27,6 +27,13 @@ void main() {
       expect(() => f.name, throwsException);
     });
 
+    test('loose matching with no positional argument matcher', () {
+      whenCalling(Invocation.method(#doSomething, null))
+          .on(f)
+          .thenThrowException(Exception());
+      expect(() => f.doSomething('fun'), throwsException);
+    });
+
     test('positional arguments', () {
       expect(() => f.doSomething('no'), returnsNormally);
 
