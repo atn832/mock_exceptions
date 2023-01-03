@@ -4,17 +4,17 @@ import 'package:test/test.dart';
 void main() {
   test('mockable exception', () {
     final f = MyFake();
-    whenCalling(Invocation.method(#doSomething, [anything]))
+    whenCalling(Invocation.method(#doSomething, null))
         .on(f)
         .thenThrowException(Exception());
-    expect(() => f.doSomething('fun'), throwsException);
+    expect(() => f.doSomething(), throwsException);
   });
 }
 
 class MyFake {
-  String doSomething(String input) {
+  String doSomething() {
     // Throw an exception if a relevant Invocation matcher has been registered.
-    maybeThrowException(this, Invocation.method(#doSomething, [input]));
+    maybeThrowException(this, Invocation.method(#doSomething, null));
     // Do regular work.
     return 'it works';
   }
