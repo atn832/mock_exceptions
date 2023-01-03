@@ -31,7 +31,9 @@ bool _matches(
       equals(invocationWithMatchers.positionalArguments)
           .matches(concreteInvocation.positionalArguments, {}) &&
       equals(invocationWithMatchers.namedArguments)
-          .matches(concreteInvocation.namedArguments, {});
+          .matches(concreteInvocation.namedArguments, {}) &&
+      equals(invocationWithMatchers.typeArguments)
+          .matches(concreteInvocation.typeArguments, {});
 }
 
 /// Named differently from Mockito's `when` to prevent conflicts.

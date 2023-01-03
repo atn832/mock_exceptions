@@ -46,6 +46,16 @@ void main() {
 
       expect(() => f.add(i1: 1, i2: 2), throwsException);
     });
+
+    test('type arguments', () {
+      expect(f.makeList<int>(), []);
+
+      whenCalling(Invocation.genericMethod(#makeList, null, null, {#T: int}))
+          .on(f)
+          .thenThrowException(Exception());
+
+      expect(() => f.makeList<int>(), throwsException);
+    });
   });
 }
 
@@ -69,5 +79,11 @@ class MyFake {
     maybeThrowException(
         this, Invocation.method(#add, null, {#i1: i1, #i2: i2}));
     return i1 + i2;
+  }
+
+  List<T> makeList<T>() {
+    maybeThrowException(
+        this, Invocation.genericMethod(#makeList, null, null, {#T: T}));
+    return List<T>.empty();
   }
 }
